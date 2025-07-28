@@ -1,0 +1,6 @@
+modules:
+  - proto-actor
+  - proto-remote
+  - proto-router
+  - examples/hello-world
+  - exploration

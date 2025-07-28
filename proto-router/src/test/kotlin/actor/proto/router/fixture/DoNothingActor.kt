@@ -1,6 +1,6 @@
 package actor.proto.router.fixture
 
-import actor.proto.Actor
+import proto.actor.Actor
 import actor.proto.Context
 
 class DoNothingActor : Actor {

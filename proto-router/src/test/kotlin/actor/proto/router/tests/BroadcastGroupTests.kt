@@ -1,6 +1,6 @@
 package actor.proto.router.tests
 
-import actor.proto.Actor
+import proto.actor.Actor
 import actor.proto.Context
 import actor.proto.PID
 import actor.proto.Props

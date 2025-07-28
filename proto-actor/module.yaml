@@ -1,0 +1,31 @@
+product:
+  type: lib
+  platforms: [ jvm ]
+
+settings:
+  kotlin:
+    languageVersion: "2.2"
+    serialization:
+      format: protobuf
+      version: 1.9.0
+    freeCompilerArgs:
+      - "-Xmulti-dollar-interpolation"
+      - "-Xwhen-guards"
+    optIns:
+      - kotlin.concurrent.atomics.ExperimentalAtomicApi
+      - kotlinx.serialization.ExperimentalSerializationApi
+      - kotlin.time.ExperimentalTime
+      - kotlin.uuid.ExperimentalUuidApi
+
+dependencies:
+  - $libs.kotlin.logging
+  - $libs.kotlinx.serialization.protobuf
+  - $libs.kotlinx.coroutines.core
+  - $libs.kotlinx.coroutines.jdk8
+  - $libs.kotlinx.datetime
+
+test-dependencies:
+  - $libs.slf4j.simple
+  - $libs.awaitility
+  - $libs.junit.jupiter.api
+  - $libs.junit.jupiter.engine

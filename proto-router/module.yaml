@@ -1,0 +1,20 @@
+product:
+  type: lib
+  platforms: [ jvm ]
+
+settings:
+  kotlin:
+    languageVersion: "2.2"
+    apiVersion: "2.2"
+  jvm:
+    targetVersion: "21"
+
+dependencies:
+  - ../proto-actor
+  - $libs.protobuf.java
+  - $libs.kotlinx.coroutines.core
+
+test-dependencies:
+  - $libs.slf4j.simple
+  - $libs.junit.jupiter.api
+  - $libs.junit.jupiter.engine
