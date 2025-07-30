@@ -264,7 +264,7 @@ class ActorContext private constructor(
     }
 
     override fun spawnNamed(
-        props: Props, name: String, callback: ((Context) -> Unit)?
+        props: Props, name: String, callback: (Context.() -> Unit)?
     ): PID {
         if (props.guardianStrategy != null) {
             throw IllegalArgumentException("Props used to spawn child can not have a guardian strategy")

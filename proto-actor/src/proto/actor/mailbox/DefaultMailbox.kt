@@ -126,6 +126,8 @@ class DefaultMailbox(
             }
         } catch (e: Exception) {
             invoker.escalateFailure(e, message)
+        } finally {
+            atomicStatus.compareAndSet(MailboxStatus.BUSY.ordinal, MailboxStatus.IDLE.ordinal)
         }
     }
 

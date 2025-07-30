@@ -16,6 +16,8 @@ settings:
       - kotlinx.serialization.ExperimentalSerializationApi
       - kotlin.time.ExperimentalTime
       - kotlin.uuid.ExperimentalUuidApi
+  jvm:
+    release: 21
 
 dependencies:
   - $libs.kotlin.logging

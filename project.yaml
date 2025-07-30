@@ -3,4 +3,5 @@ modules:
   - proto-remote
   - proto-router
   - examples/hello-world
-  - exploration
+  - examples/futures
+  - examples/ping-pong

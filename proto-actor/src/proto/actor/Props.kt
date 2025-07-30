@@ -161,7 +161,7 @@ class Props {
 
     fun createMailbox(): Mailbox = mailboxProducer()
 
-    internal fun spawn(system: ActorSystem, name: String, parent: PID, callback: ((Context) -> Unit)?): PID {
+    internal fun spawn(system: ActorSystem, name: String, parent: PID, callback: (Context.() -> Unit)?): PID {
         return spawner.spawn(system, name, this, parent, callback)
     }
 
@@ -191,6 +191,11 @@ class Props {
         fun <TActor : Actor> fromProducerWithSystemAndContext(producer: (ActorSystem, Context) -> TActor) =
             empty.withProducer { system, context ->
                 producer(system, context)
+            }
+
+        fun fromFunction(receiver: suspend Context.() -> Unit): Props =
+            fromProducer {
+                FunctionActor(receiver)
             }
     }
 }

@@ -6,17 +6,17 @@ import proto.actor.Dispatcher
 import java.util.concurrent.ConcurrentHashMap
 import kotlin.reflect.KClass
 
-open class EventStream<T : Any>(private val logger: KLogger) {
+open class EventStream<T : Any>(
+    private val dispatcher: Dispatcher,
+    private val logger: KLogger
+) {
     private val subscriptions = ConcurrentHashMap<EventStreamSubscriptionId, EventStreamSubscription<T>>()
-
-    private val defaultDispatcher
-        get() = Dispatcher.Companion.default
 
     fun subscribe(name: String, action: (T) -> Unit, dispatcher: Dispatcher? = null): EventStreamSubscription<T> {
         val subscription = EventStreamSubscription<T>(
             this,
             name,
-            dispatcher ?: defaultDispatcher
+            dispatcher ?: this.dispatcher,
         ) { action(it) }
 
         subscriptions.putIfAbsent(subscription.id, subscription)
@@ -28,7 +28,7 @@ open class EventStream<T : Any>(private val logger: KLogger) {
         val subscription = EventStreamSubscription<T>(
             this,
             name,
-            dispatcher ?: defaultDispatcher
+            dispatcher ?: this.dispatcher
         ) { message -> channel.send(message) }
 
         subscriptions.putIfAbsent(subscription.id, subscription)
@@ -46,7 +46,7 @@ open class EventStream<T : Any>(private val logger: KLogger) {
         val subscription = EventStreamSubscription<T>(
             this,
             name,
-            dispatcher ?: defaultDispatcher
+            dispatcher ?: this.dispatcher
         ) { message ->
             if (messageType.isInstance(message)) {
                 channel.send(message as TMessage)
@@ -68,7 +68,7 @@ open class EventStream<T : Any>(private val logger: KLogger) {
         val subscription = EventStreamSubscription<T>(
             this,
             name,
-            dispatcher ?: defaultDispatcher
+            dispatcher ?: this.dispatcher
         ) { message ->
             if (messageType.isInstance(message)) {
                 action(message as TMessage)

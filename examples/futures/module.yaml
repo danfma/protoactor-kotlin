@@ -10,4 +10,6 @@ settings:
 
 dependencies:
   - ../../proto-actor
+  - $libs.kotlin.logging
   - $libs.kotlinx.coroutines.core
+  - $libs.slf4j.jdk14

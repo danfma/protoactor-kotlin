@@ -138,7 +138,7 @@ class ActorLoggingContext(
     override fun spawnNamed(
         props: Props,
         name: String,
-        callback: ((Context) -> Unit)?
+        callback: (Context.() -> Unit)?
     ): PID {
         try {
             logLevel.log(logger) {

@@ -7,7 +7,8 @@ class DefaultDispatcher(
     context: CoroutineContext = Dispatchers.Default,
     override var throughput: Int = 300
 ) : Dispatcher {
-    private val scope: CoroutineScope = CoroutineScope(context) + SupervisorJob()
+    internal val supervisorJob = SupervisorJob()
+    private val scope: CoroutineScope = CoroutineScope(context) + supervisorJob
 
     override fun schedule(runner: suspend () -> Unit) {
         scope.launch {

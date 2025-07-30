@@ -25,7 +25,7 @@ class RootContextImpl(
         private set
 
     override fun spawnNamed(
-        props: Props, name: String, callback: ((Context) -> Unit)?
+        props: Props, name: String, callback: (Context.() -> Unit)?
     ): PID {
         val name = name.ifEmpty { system.processRegistry.nextId() }
 

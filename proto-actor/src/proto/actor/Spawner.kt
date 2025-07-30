@@ -12,7 +12,7 @@ interface Spawner {
         name: String,
         props: Props,
         parent: PID,
-        callback: ((Context) -> Unit)? = null
+        callback: (Context.() -> Unit)? = null
     ): PID
 
     companion object {
@@ -22,7 +22,7 @@ interface Spawner {
                 name: String,
                 props: Props,
                 parent: PID,
-                callback: ((Context) -> Unit)?
+                callback: (Context.() -> Unit)?
             ): PID {
                 if (system.isShuttingDown) {
                     return system.deadLetterPid

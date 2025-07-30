@@ -1,3 +1,6 @@
 package proto.actor.messages
 
-object Stopped : AutoReceiveMessage
+import kotlinx.serialization.Serializable
+
+@Serializable
+data object Stopped : AutoReceiveMessage

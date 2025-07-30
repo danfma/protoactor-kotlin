@@ -1,5 +1,6 @@
 package proto.actor
 
+import kotlinx.coroutines.awaitAll
 import mu.KotlinLogging
 import proto.actor.contexts.RootContextImpl
 import proto.actor.messages.PID
@@ -8,7 +9,7 @@ import proto.actor.processes.DeadLetterProcess
 import proto.actor.processes.configure
 import kotlin.uuid.Uuid
 
-class ActorSystem(val config: ActorSystemConfig) {
+class ActorSystem(val config: ActorSystemConfig) : AutoCloseable {
     private var host = PID.NO_HOST
     private var port = 0
 
@@ -100,6 +101,38 @@ class ActorSystem(val config: ActorSystemConfig) {
         val configured = config.configureRootContext(root)
 
         return configured
+    }
+
+    override fun close() {
+        if (!isShuttingDown) {
+            shutdown("closed")
+        }
+    }
+
+    fun shutdown(reason: String) {
+        logger.info { "Shutting down actor system: $name, reason: $reason" }
+
+        isShuttingDown = true
+
+        logger.info { "Actor system $name has been shut down successfully." }
+    }
+
+    suspend fun shutdownAndWait() {
+        isShuttingDown = true
+        
+        logger.info { "Shutting down actor system: $name" }
+
+        val localPids = processRegistry.getLocalActorPids()
+
+        val childrenStoppingJobs = localPids.map { pid ->
+            config.dispatcher.defer {
+                root.waitStopOf(pid)
+            }
+        }
+
+        awaitAll(*childrenStoppingJobs.toTypedArray())
+
+        logger.info { "Actor system $name has been shut down successfully." }
     }
 
     companion object {

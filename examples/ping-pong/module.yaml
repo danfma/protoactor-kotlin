@@ -5,9 +5,14 @@ product:
 settings:
   kotlin:
     languageVersion: "2.2"
+    freeCompilerArgs:
+      - -Xwhen-guards
+    optIns: [ kotlin.time.ExperimentalTime ]
   jvm:
     release: 21
 
 dependencies:
   - ../../proto-actor
+  - $libs.kotlin.logging
   - $libs.kotlinx.coroutines.core
+  - $libs.slf4j.jdk14

@@ -33,6 +33,7 @@ junit-jupiter-engine = { module = "org.junit.jupiter:junit-jupiter-engine", vers
 kotlin-logging = { module = "io.github.microutils:kotlin-logging", version.ref = "kotlin-logging" }
 jctools-core = { module = "org.jctools:jctools-core", version.ref = "jctools" }
 javax-annotation-api = { module = "javax.annotation:javax.annotation-api", version.ref = "javax-annotations" }
+slf4j-jdk14 = "org.slf4j:slf4j-jdk14:1.7.5"
 
 [bundles]
 grpc = ["grpc-netty", "grpc-protobuf", "grpc-stub"]

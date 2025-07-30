@@ -1,5 +1,7 @@
 package proto.actor
 
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.SupervisorJob
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.Transient
 import mu.KotlinLogging
@@ -9,7 +11,8 @@ typealias ContextDecorator = (Context) -> Context
 
 @Serializable
 data class ActorSystemConfig(
-    val dispatcher: Dispatcher = Dispatcher.default,
+    val supervisorJob: Job = SupervisorJob(),
+    val dispatcher: Dispatcher = DefaultDispatcher(supervisorJob),
     val deadLetterThrottleInterval: Long = 0,
     val deadLetterThrottleCount: UInt = 0u,
     val deadLetterRequestLogging: Boolean = false,

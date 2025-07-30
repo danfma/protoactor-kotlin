@@ -2,6 +2,7 @@ package proto.actor
 
 import proto.actor.exceptions.ProcessNameExistException
 import proto.actor.messages.PID
+import proto.actor.processes.ActorProcess
 import proto.actor.processes.GuardianProcess
 import java.util.concurrent.ConcurrentHashMap
 import java.util.concurrent.atomic.AtomicInteger
@@ -16,6 +17,12 @@ class ProcessRegistry(private val system: ActorSystem) {
 
     fun registerHostResolver(resolver: (PID) -> Process) {
         hostResolvers.add(resolver)
+    }
+
+    internal fun getLocalActorPids(): List<PID> {
+        return localProcesses
+            .filter { (_, process) -> process is ActorProcess && !process.isDead }
+            .map { (id, process) -> PID.from(system.address, id, process) }
     }
 
     fun get(pid: PID): Process {
